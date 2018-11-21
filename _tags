@@ -1,0 +1,3 @@
+true: package(ppx_deriving.std), package(kaputt), package(batteries)
+true: bin_annot, debug
+true: thread

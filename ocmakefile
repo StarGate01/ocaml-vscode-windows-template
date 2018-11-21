@@ -1,0 +1,37 @@
+.PHONY: build test static
+
+BLD=_build
+OCB=ocamlbuild -no-links -use-ocamlfind
+
+OUTFILES=$(BUILD:%=$(BLD)/$(DIR)/%.native)
+OUTFILESB=$(BUILD:%=$(BLD)/$(DIR)/%.d.byte)
+TOUTFILES=$(TEST:%=$(BLD)/$(DIR)/%.native)
+TOUTFILESB=$(TEST:%=$(BLD)/$(DIR)/%.d.byte)
+
+static:
+ifdef STATIC
+	@cp -R -t $(BLD)/$(DIR) $(STATIC:%=$(DIR)/%)
+endif
+
+build: $(OUTFILES) $(OUTFILESB) static
+
+ifdef TEST
+test: $(TOUTFILES) $(TOUTFILESB) static
+	$(TEST:%=cd $(BLD)/$(DIR) && ./%.native)
+endif
+
+$(TOUTFILES): $(BLD)/$(DIR)/%.native: $(DIR)/%.ml $(OUTFILES)
+	$(OCB) $(DIR)/$*.native
+
+$(TOUTFILESB): $(BLD)/$(DIR)/%.d.byte: $(DIR)/%.ml $(OUTFILESB)
+	$(OCB) $(DIR)/$*.d.byte
+	@mv $(BLD)/$(DIR)/$*.d.byte $(BLD)/$(DIR)/$*.ml.d.byte
+	@touch $(BLD)/$(DIR)/$*.d.byte
+
+$(OUTFILES): $(BLD)/$(DIR)/%.native: $(DIR)/%.ml
+	$(OCB) $(DIR)/$*.native
+
+$(OUTFILESB): $(BLD)/$(DIR)/%.d.byte: $(DIR)/%.ml
+	$(OCB) $(DIR)/$*.d.byte
+	@mv $(BLD)/$(DIR)/$*.d.byte $(BLD)/$(DIR)/$*.ml.d.byte
+	@touch $(BLD)/$(DIR)/$*.d.byte

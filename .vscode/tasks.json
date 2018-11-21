@@ -1,0 +1,173 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "options": {
+        "shell": {
+            "executable": "bash.exe",
+            "args": [
+                "--login",
+                "-c"
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "label": "Build All",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "allbuild"
+            ],
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^File \"(.*)\", line (\\d+)(?:, characters (\\d+)-(\\d+))?:$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endColumn": 4
+                    },
+                    {
+                        "regexp": "^(?:(?:Parse\\s+)?(Warning|[Ee]rror)(?:\\s+\\d+)?:)?\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                        "loop": true
+                    }
+                ],
+                "source": "ocamlbuild",
+                "background": {
+                    "beginsPattern": "^build start.*$",
+                    "endsPattern": "^build end.*$"
+                },
+                "applyTo": "allDocuments"
+            }
+        },
+        {
+            "label": "Build Current",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "dirbuild",
+                "TF=${relativeFile}"
+            ],
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^File \"(.*)\", line (\\d+)(?:, characters (\\d+)-(\\d+))?:$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endColumn": 4
+                    },
+                    {
+                        "regexp": "^(?:(?:Parse\\s+)?(Warning|[Ee]rror)(?:\\s+\\d+)?:)?\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                        "loop": true
+                    }
+                ],
+                "source": "ocamlbuild",
+                "background": {
+                    "beginsPattern": "^build start.*$",
+                    "endsPattern": "^build end.*$"
+                },
+                "applyTo": "allDocuments"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Clean All",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "allclean"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Current",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "dirclean",
+                "TF=${relativeFile}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Test All",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "alltest"
+            ],
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^File \"(.*)\", line (\\d+)(?:, characters (\\d+)-(\\d+))?:$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endColumn": 4
+                    },
+                    {
+                        "regexp": "^(?:(?:Parse\\s+)?(Warning|[Ee]rror)(?:\\s+\\d+)?:)?\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                        "loop": true
+                    }
+                ],
+                "source": "ocamlbuild",
+                "background": {
+                    "beginsPattern": "^build start.*$",
+                    "endsPattern": "^build end.*$"
+                },
+                "applyTo": "allDocuments"
+            }
+        },
+        {
+            "label": "Test Current",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "dirtest",
+                "TF=${relativeFile}"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "fileLocation": ["relative", "${workspaceRoot}"],
+                "pattern": [
+                    {
+                        "regexp": "^File \"(.*)\", line (\\d+)(?:, characters (\\d+)-(\\d+))?:$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endColumn": 4
+                    },
+                    {
+                        "regexp": "^(?:(?:Parse\\s+)?(Warning|[Ee]rror)(?:\\s+\\d+)?:)?\\s+(.*)$",
+                        "severity": 1,
+                        "message": 2,
+                        "loop": true
+                    }
+                ],
+                "source": "ocamlbuild",
+                "background": {
+                    "beginsPattern": "^build start.*$",
+                    "endsPattern": "^build end.*$"
+                },
+                "applyTo": "allDocuments"
+            }
+        }
+    ]
+}
