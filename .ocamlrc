@@ -1,11 +1,1 @@
-OCAMLVER=4.05.0
-
-export CAML_LD_LIBRARY_PATH=~/.opam/$OCAMLVER/lib/stublibs
-export OCAML_TOPLEVEL_PATH=~/.opam/$OCAMLVER/lib/toplevel
-export PERL5LIB=~/.opam/$OCAMLVER/lib/perl5
-export OCAMLLIB=~/.opam/$OCAMLVER/lib/ocaml
-export CAMLP4LIB=~/.opam/$OCAMLVER/lib/camlp4
-
-export PATH=$PATH:~/.opam/$OCAMLVER/bin
-
 eval `opam config env`
